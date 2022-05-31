@@ -4,11 +4,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Supported functionalities" href="functionality.html" /><link rel="prev" title="Query submission via the Spark Driver" href="untrusted.html" />
 
-    <meta name="generator" content="sphinx-4.4.0, furo 2022.02.14.1"/>
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
         <title>Usage - Opaque SQL documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=a8f031f701c6af50c9919b48f173a5785af06fac" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -22,24 +22,28 @@
   --color-admonition-background: #3681da;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -171,6 +175,12 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
         <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
@@ -192,7 +202,7 @@
 <span id="save-df"></span><h2>Saving a DataFrame<a class="headerlink" href="#saving-a-dataframe" title="Permalink to this headline">#</a></h2>
 <p>Save the encrypted DataFrame to local disk. The encrypted data can then be uploaded to cloud storage of your choice for easy access.</p>
 <p>Scala:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dfEncrypted</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">"edu.berkeley.cs.rise.opaque.EncryptedSource"</span><span class="p">).</span><span class="n">save</span><span class="p">(</span><span class="s">"dfEncrypted"</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="n">dfEncrypted</span><span class="p">.</span><span class="n">write</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">"edu.berkeley.cs.rise.opaque.EncryptedSource"</span><span class="p">).</span><span class="n">save</span><span class="p">(</span><span class="s">"dfEncrypted"</span><span class="p">)</span><span class="w"></span>
 <span class="c1">// The file dfEncrypted/part-00000 now contains encrypted data</span>
 </pre></div>
 </div>
@@ -206,10 +216,10 @@
 <ol class="arabic">
 <li><p>Users can load the <a class="reference internal" href="#save-df"><span class="std std-ref">previously persisted encrypted DataFrame</span></a>.</p>
 <p>Scala:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">org</span><span class="p">.</span><span class="nn">apache</span><span class="p">.</span><span class="nn">spark</span><span class="p">.</span><span class="nn">sql</span><span class="p">.</span><span class="nn">types</span><span class="p">.</span><span class="n">_</span>
-<span class="kd">val</span> <span class="n">dfEncrypted</span> <span class="o">=</span> <span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">"edu.berkeley.cs.rise.opaque.EncryptedSource"</span><span class="p">)</span>
-<span class="p">.</span><span class="n">schema</span><span class="p">(</span><span class="nc">StructType</span><span class="p">(</span><span class="nc">Seq</span><span class="p">(</span><span class="nc">StructField</span><span class="p">(</span><span class="s">"word"</span><span class="p">,</span> <span class="nc">StringType</span><span class="p">),</span> <span class="nc">StructField</span><span class="p">(</span><span class="s">"count"</span><span class="p">,</span> <span class="nc">IntegerType</span><span class="p">))))</span>
-<span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"dfEncrypted"</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">import</span><span class="w"> </span><span class="nn">org</span><span class="p">.</span><span class="nn">apache</span><span class="p">.</span><span class="nn">spark</span><span class="p">.</span><span class="nn">sql</span><span class="p">.</span><span class="nn">types</span><span class="p">.</span><span class="n">_</span>
+<span class="kd">val</span><span class="w"> </span><span class="n">dfEncrypted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">spark</span><span class="p">.</span><span class="n">read</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="s">"edu.berkeley.cs.rise.opaque.EncryptedSource"</span><span class="p">)</span><span class="w"></span>
+<span class="p">.</span><span class="n">schema</span><span class="p">(</span><span class="nc">StructType</span><span class="p">(</span><span class="nc">Seq</span><span class="p">(</span><span class="nc">StructField</span><span class="p">(</span><span class="s">"word"</span><span class="p">,</span><span class="w"> </span><span class="nc">StringType</span><span class="p">),</span><span class="w"> </span><span class="nc">StructField</span><span class="p">(</span><span class="s">"count"</span><span class="p">,</span><span class="w"> </span><span class="nc">IntegerType</span><span class="p">))))</span><span class="w"></span>
+<span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"dfEncrypted"</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Python:</p>
@@ -219,8 +229,8 @@
 </li>
 <li><p>Given an encrypted DataFrame, construct a new query. Users can use <code class="docutils literal notranslate"><span class="pre">explain</span></code> to see the generated query plan.</p>
 <p>Scala:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">result</span> <span class="o">=</span> <span class="n">dfEncrypted</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">$</span><span class="s">"count"</span> <span class="o">&gt;</span> <span class="n">lit</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
-<span class="n">result</span><span class="p">.</span><span class="n">explain</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dfEncrypted</span><span class="p">.</span><span class="n">filter</span><span class="p">(</span><span class="n">$</span><span class="s">"count"</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">lit</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
+<span class="n">result</span><span class="p">.</span><span class="n">explain</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"></span>
 <span class="c1">// [...]</span>
 <span class="c1">// == Optimized Logical Plan ==</span>
 <span class="c1">// EncryptedFilter (count#6 &gt; 3)</span>
@@ -245,15 +255,15 @@
 <span class="s">  |USING edu.berkeley.cs.rise.opaque.EncryptedSource</span>
 <span class="s">  |OPTIONS (</span>
 <span class="s">  |  path "dfEncrypted"</span>
-<span class="s">  |)"""</span><span class="p">.</span><span class="n">stripMargin</span><span class="p">)</span>
+<span class="s">  |)"""</span><span class="p">.</span><span class="n">stripMargin</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </li>
 <li><p>The SQL API can be used to run the same query on the loaded data.</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span> <span class="n">result</span> <span class="o">=</span> <span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">s"""</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="kd">val</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spark</span><span class="p">.</span><span class="n">sql</span><span class="p">(</span><span class="s">s"""</span>
 <span class="s">  |SELECT * FROM dfEncrypted</span>
-<span class="s">  |WHERE count &gt; 3"""</span><span class="p">.</span><span class="n">stripMargin</span><span class="p">)</span>
-<span class="n">result</span><span class="p">.</span><span class="n">show</span>
+<span class="s">  |WHERE count &gt; 3"""</span><span class="p">.</span><span class="n">stripMargin</span><span class="p">)</span><span class="w"></span>
+<span class="n">result</span><span class="p">.</span><span class="n">show</span><span class="w"></span>
 </pre></div>
 </div>
 </li>

@@ -4,11 +4,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Benchmarking" href="../benchmarking/benchmarking.html" /><link rel="prev" title="Usage" href="usage.html" />
 
-    <meta name="generator" content="sphinx-4.4.0, furo 2022.02.14.1"/>
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/>
         <title>Supported functionalities - Opaque SQL documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=a8f031f701c6af50c9919b48f173a5785af06fac" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=25ceb02ed1c46dc30f2321ff83e92799f69dfdb9" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -22,24 +22,28 @@
   --color-admonition-background: #3681da;
   
   }
-  body[data-theme="dark"] {
-    --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
-  
-  }
-  @media (prefers-color-scheme: dark) {
-    body:not([data-theme="light"]) {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
   }
 </style></head>
   <body>
+    
     <script>
       document.body.dataset.theme = localStorage.getItem("theme") || "auto";
     </script>
     
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
@@ -171,6 +175,12 @@
   <div class="main">
     <div class="content">
       <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
         <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
@@ -463,12 +473,12 @@
 <p>In the same file, add <code class="docutils literal notranslate"><span class="pre">DotProduct</span></code> to the list of expressions in <code class="docutils literal notranslate"><span class="pre">ExprUnion</span></code>.</p>
 </li>
 <li><p>Implement the serialization logic from the Scala <code class="docutils literal notranslate"><span class="pre">DotProduct</span></code> UDF to the Opaque expression that we just defined. In <code class="docutils literal notranslate"><span class="pre">Utils.flatbuffersSerializeExpression</span></code> (from <code class="docutils literal notranslate"><span class="pre">Utils.scala</span></code>), add a case for <code class="docutils literal notranslate"><span class="pre">DotProduct</span></code> as follows:</p>
-<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span> <span class="p">(</span><span class="nc">DotProduct</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">),</span> <span class="nc">Seq</span><span class="p">(</span><span class="n">leftOffset</span><span class="p">,</span> <span class="n">rightOffset</span><span class="p">))</span> <span class="o">=&gt;</span>
-  <span class="n">tuix</span><span class="p">.</span><span class="nc">Expr</span><span class="p">.</span><span class="n">createExpr</span><span class="p">(</span>
-    <span class="n">builder</span><span class="p">,</span>
-    <span class="n">tuix</span><span class="p">.</span><span class="nc">ExprUnion</span><span class="p">.</span><span class="nc">DotProduct</span><span class="p">,</span>
-    <span class="n">tuix</span><span class="p">.</span><span class="nc">DotProduct</span><span class="p">.</span><span class="n">createDotProduct</span><span class="p">(</span>
-      <span class="n">builder</span><span class="p">,</span> <span class="n">leftOffset</span><span class="p">,</span> <span class="n">rightOffset</span><span class="p">))</span>
+<div class="highlight-scala notranslate"><div class="highlight"><pre><span></span><span class="k">case</span><span class="w"> </span><span class="p">(</span><span class="nc">DotProduct</span><span class="p">(</span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">),</span><span class="w"> </span><span class="nc">Seq</span><span class="p">(</span><span class="n">leftOffset</span><span class="p">,</span><span class="w"> </span><span class="n">rightOffset</span><span class="p">))</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"></span>
+<span class="w">  </span><span class="n">tuix</span><span class="p">.</span><span class="nc">Expr</span><span class="p">.</span><span class="n">createExpr</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">builder</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tuix</span><span class="p">.</span><span class="nc">ExprUnion</span><span class="p">.</span><span class="nc">DotProduct</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">tuix</span><span class="p">.</span><span class="nc">DotProduct</span><span class="p">.</span><span class="n">createDotProduct</span><span class="p">(</span><span class="w"></span>
+<span class="w">      </span><span class="n">builder</span><span class="p">,</span><span class="w"> </span><span class="n">leftOffset</span><span class="p">,</span><span class="w"> </span><span class="n">rightOffset</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </li>
